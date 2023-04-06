@@ -10,22 +10,24 @@ import com.example.todo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import org.modelmapper.ModelMapper;
+
 
 import static com.example.todo.exception.EntityType.TASK;
 import static com.example.todo.exception.ExceptionType.DUPLICATE_ENTITY;
 import static com.example.todo.exception.ExceptionType.ENTITY_NOT_FOUND;
 
-import org.modelmapper.ModelMapper;
-
 @Component
 public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public TaskDto createTask(TaskDto taskDto) {
@@ -40,7 +42,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<TaskDto> fetchTasks() {
+    public TreeSet<TaskMapper> fetchTasks() {
         return StreamSupport
                 .stream(taskRepository.findAll().spliterator(), false)
                 .map(stop -> modelMapper.map(stop, TaskMapper.class))

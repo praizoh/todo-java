@@ -2,6 +2,7 @@ package com.example.todo.controller.v1.api;
 
 import com.example.todo.controller.v1.request.CreateTaskRequest;
 import com.example.todo.dto.TaskDto;
+import com.example.todo.dto.mapper.TaskMapper;
 import com.example.todo.dto.response.Response;
 import com.example.todo.model.Task;
 import com.example.todo.service.TaskService;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.TreeSet;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -35,7 +37,7 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public  Response fetchTasks(){
-        List<TaskDto> tasks = taskService.fetchTasks();
+        TreeSet<TaskMapper> tasks = taskService.fetchTasks();
         return Response.ok().setPayload(tasks);
     }
 }
